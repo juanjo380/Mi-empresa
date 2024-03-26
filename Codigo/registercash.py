@@ -7,8 +7,15 @@ def back():
     registercash.destroy()
     subprocess.call(["python", "Codigo/menu.py"])
 
-# Carga los datos del archivo CSV
+# Carga los datos del archivo CSV en el DataFrame 'df'
 df = pd.read_csv('./datos/prueba@gmail.com_pagos.csv')
+
+productos = df.set_index('ID').T.to_dict('list')
+
+def get_updated_data():
+    # Carga los datos más recientes del archivo CSV en el DataFrame 'df'
+    df = pd.read_csv('./datos/prueba@gmail.com_pagos.csv')
+    return df
 
 # Convierte el DataFrame en un diccionario
 productos = df.set_index('ID').T.to_dict('list')
@@ -18,6 +25,51 @@ registercash = Tk()
 registercash.title("Registradora")
 registercash.geometry("900x700")
 registercash.configure(bg="#17202A")
+
+#----------------------------------------------------------------------
+# Variables
+total_venta = StringVar()
+total_venta.set("Total de la venta: $0")  # Valor inicial
+
+# Creación del Label
+total_venta_label = Label(registercash, textvariable=total_venta)
+
+# Colocación del Label
+total_venta_label.place(x= 200, y= 400)
+
+def procesar_venta():
+    codigo = int(codigo_producto.get())
+    cantidad = int(cantidad_producto.get())
+    if codigo in productos and cantidad <= int(productos[codigo][4]):  # Si hay suficientes productos en stock
+        total = productos[codigo][2] * cantidad  # Calcula el total de la venta
+        productos[codigo][4] = int(productos[codigo][4]) - cantidad  # Actualiza la cantidad de productos en stock
+        df = pd.DataFrame.from_dict(productos, orient='index')  # Convierte el diccionario actualizado a un DataFrame
+        df.to_csv('./datos/prueba@gmail.com_pagos.csv', index_label='ID')  # Guarda el DataFrame actualizado en el archivo CSV
+        total_venta.set(f"Total de la venta: ${total}")  # Actualiza el total de la venta
+        messagebox.showinfo("Venta procesada", f"El total de la venta es {total}")
+    else:
+        messagebox.showerror("Error", "No hay suficientes productos en stock")
+
+# Variables
+cantidad_producto = StringVar()
+
+# Creación de los widgets
+cantidad_producto_label = Label(registercash, text="Cantidad del producto")
+cantidad_producto_label.place(x=200,y=200)
+
+cantidad_producto_entry = Entry(registercash, textvariable=cantidad_producto)
+cantidad_producto_entry.place(x=350,y=350)
+
+
+procesar_venta_button = Button(
+    registercash, 
+    text="Procesar venta", 
+    command=procesar_venta
+)
+
+procesar_venta_button.place(x=300,y=300)
+
+#----------------------------------------------------------------------
 
 # Funciones
 def autocompletar(*args):

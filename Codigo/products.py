@@ -7,7 +7,8 @@ from data import add_product
 from json import load
 import pandas as pd
 import os
- 
+from registercash import get_updated_data
+
 product_window = Tk()
 
 product_window.title("Productos")
@@ -57,8 +58,20 @@ table.heading('Descripción', text='Descripción', anchor=CENTER)
 table.heading('Precio', text='Precio', anchor=CENTER)
 table.heading('Unidades disponibles', text='Unidades disponibles', anchor=CENTER)
 
+# Limpia la tabla
+for i in table.get_children():
+    table.delete(i)
+
+# Obtiene los datos actualizados
+df = get_updated_data()
+
 for index, row in df.iterrows():
-    table.insert('', 'end', values=(row['ID'], row['Nombre'], row['Precio'], row['Descripción'], row['Unidades']))
+    try:
+        # Intenta insertar los valores en la tabla
+        table.insert('', 'end', values=(row['ID'], row['1'], row['2'], row['3'], row['4']))
+    except Exception as e:
+        # Imprime cualquier error que ocurra
+        print(f"Error al insertar fila {index}: {e}")
 
 #--------------------------------------------------------------
 table.place(x=120, y=250)
