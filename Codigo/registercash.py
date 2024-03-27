@@ -2,6 +2,7 @@ import pandas as pd
 from tkinter import *
 from tkinter import messagebox
 import subprocess
+from data import get_updated_data
 
 def back():
     registercash.destroy()
@@ -11,11 +12,6 @@ def back():
 df = pd.read_csv('./datos/prueba@gmail.com_pagos.csv')
 
 productos = df.set_index('ID').T.to_dict('list')
-
-def get_updated_data():
-    # Carga los datos más recientes del archivo CSV en el DataFrame 'df'
-    df = pd.read_csv('./datos/prueba@gmail.com_pagos.csv')
-    return df
 
 # Convierte el DataFrame en un diccionario
 productos = df.set_index('ID').T.to_dict('list')

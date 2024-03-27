@@ -27,4 +27,10 @@ def add_product(user, producto): #Producto debe ser una lista como: [nombre, pre
 
     df.to_csv(f"./datos/{user}_pagos.csv") 
     
+
     return Id
+
+def get_updated_data():
+    # Carga los datos más recientes del archivo CSV en el DataFrame 'df'
+    df = pd.read_csv('./datos/prueba@gmail.com_pagos.csv')
+    return df

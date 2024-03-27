@@ -7,7 +7,7 @@ from data import add_product
 from json import load
 import pandas as pd
 import os
-from registercash import get_updated_data
+from data import get_updated_data
 
 product_window = Tk()
 
