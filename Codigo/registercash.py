@@ -50,11 +50,17 @@ def procesar_venta():
 cantidad_producto = StringVar()
 
 # Creación de los widgets
-cantidad_producto_label = Label(registercash, text="Cantidad del producto")
+cantidad_producto_label = Label(
+    registercash, 
+    text="Cantidad del producto",
+    bg="#17202A",
+    fg="#FFFFFF",
+    font=("Bahnschrift", 14, "bold")
+    )
 cantidad_producto_label.place(x=200,y=200)
 
 cantidad_producto_entry = Entry(registercash, textvariable=cantidad_producto)
-cantidad_producto_entry.place(x=350,y=350)
+cantidad_producto_entry.place(x=200,y=250)
 
 
 procesar_venta_button = Button(
@@ -63,7 +69,7 @@ procesar_venta_button = Button(
     command=procesar_venta
 )
 
-procesar_venta_button.place(x=300,y=300)
+procesar_venta_button.place(x=500,y=500)
 
 #----------------------------------------------------------------------
 
@@ -93,38 +99,63 @@ codigo_producto.trace('w', autocompletar)
 codigo_producto_label = Label(
     registercash,
     text="Código del producto", 
+    font=("Bahnschrift", 14, "bold"),
     bg="#17202A", 
     fg="#FFFFFF"
 )
 
-codigo_producto_label.pack()
+codigo_producto_label.place(x=200, y=100)
 
 codigo_producto_entry = Entry(registercash, textvariable=codigo_producto)
-codigo_producto_entry.pack()
+codigo_producto_entry.place(x=200, y=150)
 
 nombre_producto_label = Label(
     registercash,
     text="Nombre del producto",
     bg="#17202A", 
-    fg="#FFFFFF"
+    fg="#FFFFFF",
+    font=("Bahnschrift", 14, "bold")
 )
 
-nombre_producto_label.pack()
+nombre_producto_label.place(x=500, y=100)
 
 nombre_producto_entry = Entry(registercash)
-nombre_producto_entry.pack()
+nombre_producto_entry.place(x=500, y=150)
 
 precio_producto_label = Label(
     registercash,
     text="Precio del producto", 
     bg="#17202A", 
-    fg="#FFFFFF"
+    fg="#FFFFFF",
+    font=("Bahnschrift", 14, "bold")
 )
 
-precio_producto_label.pack()
+precio_producto_label.place(x=500, y=200)
 
 precio_producto_entry = Entry(registercash)
-precio_producto_entry.pack()
+precio_producto_entry.place(x=500, y=250)
+
+pagaCon = Label(
+    registercash,
+    text="Paga con",
+    bg="#17202A", 
+    fg="#FFFFFF",
+    font=("Bahnschrift", 14, "bold")
+)
+pagaCon.configure(
+    bg="#17202A", 
+    fg="#FFFFFF",
+    font=("Bahnschrift", 14, "bold")
+    )
+
+paga_Con = Entry(
+    registercash
+)
+
+paga_Con.place(x=200, y=350)
+
+pagaCon.place(x=200, y=300)
+
 
 button_back = Button(
     registercash, 
