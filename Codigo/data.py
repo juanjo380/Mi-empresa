@@ -11,7 +11,12 @@ def initiation(user):
 
 def add_product(user, producto): #Producto debe ser una lista como: [nombre, precio, descripción, unidades]
 
-    df = pd.read_csv(f"./datos/{user}_pagos.csv",index_col=0)
+    df = pd.read_csv(f"./datos/{user}_pagos.csv")
+    if df.columns.values[1] == "IDX":
+        df = pd.read_csv(f"./datos/{user}_pagos.csv", index_col= 1)
+
+    else:
+        df = pd.read_csv(f"./datos/{user}_pagos.csv", index_col= 0)
 
     if producto[1] in df['Nombre'].values:
         df.loc[df['Nombre'] == producto[2],'Unidades'] += int(producto[3])
@@ -26,11 +31,11 @@ def add_product(user, producto): #Producto debe ser una lista como: [nombre, pre
         new_row = pd.DataFrame([[Id, producto[0], int(producto[1]), producto[2], int(producto[3])]], columns=df.columns)
         df = pd.concat([df,new_row], ignore_index=True)
 
-    df.to_csv("./datos/products.csv") 
+    df.to_csv(f"./datos/{user}_pagos.csv") 
 
     return Id
 
-def get_updated_data():
+def get_updated_data(user):
     # Carga los datos más recientes del archivo CSV en el DataFrame 'df'
-    df = pd.read_csv('./datos/prueba@gmail.com_pagos.csv')
+    df = pd.read_csv(f"./datos/{user}_pagos.csv")
     return df

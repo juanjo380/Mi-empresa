@@ -18,7 +18,7 @@ if not os.path.exists('./datos/Estudiantes.csv'):
     print("No se pudo encontrar el archivo CSV.")
 else:
     # Lee el archivo CSV
-    df = pd.read_csv('./datos/Estudiantes.csv', encoding='ISO-8859-1')
+    df = pd.read_csv('./datos/Estudiantes.csv', encoding='utf-8')
 
     # Crea la tabla
     tabla = ttk.Treeview(orders)

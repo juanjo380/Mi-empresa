@@ -1,12 +1,6 @@
-ID,0,1,2,3,4
-392,0,Limonada,10000,si,26
-316,1,sancocho,5000,rico,0
-371,2,Limonada de coco,4000,trae coco,98
-335,3,postre de maracuya,8000,rico,20000
-360,8,Calamares,10000,son de mar,0
-367,5,Pan,5000,es muy delicioso,50
-329,6,Pescado,5,de mar,4
-359,7,Hamburguesa,9000,Es muy rica,20
-315,9,Camarones,20000,no son de rio,7
-387,10,Salchipapa,6000,sencilla,30
-319,11,Pepino,70000,pepino,1
+ID,IDX,Nombre,Precio,Descripción,Unidades
+307,0,pablotruco,9000,pablotruco,8
+398,1,pepe,10000,pepe,10
+367,2,juan,8000,juan,7
+321,3,maria,7000,maria,3
+391,4,briskerillo,5000,briskerillo,0

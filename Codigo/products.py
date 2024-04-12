@@ -63,12 +63,12 @@ for i in table.get_children():
     table.delete(i)
 
 # Obtiene los datos actualizados
-df = get_updated_data()
+df = get_updated_data(username)
 
 for index, row in df.iterrows():
     try:
         # Intenta insertar los valores en la tabla
-        table.insert('', 'end', values=(row['ID'], row['1'], row['2'], row['3'], row['4']))
+        table.insert('', 'end', values=(row['ID'], row['Nombre'], row['Precio'], row['Descripción'], row['Unidades']))
     except Exception as e:
         # Imprime cualquier error que ocurra
         print(f"Error al insertar fila {index}: {e}")

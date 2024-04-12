@@ -2,14 +2,18 @@ import pandas as pd
 from tkinter import *
 from tkinter import messagebox
 import subprocess
-from data import get_updated_data
+from json import load
+
+with open('./datos/user.json', "r") as archivo:
+        datos = load(archivo)
+username = datos['username']
 
 def back():
     registercash.destroy()
     subprocess.call(["python", "Codigo/menu.py"])
 
 # Carga los datos del archivo CSV en el DataFrame 'df'
-df = pd.read_csv('./datos/prueba@gmail.com_pagos.csv')
+df = pd.read_csv(f"./datos/{username}_pagos.csv")
 
 productos = df.set_index('ID').T.to_dict('list')
 
@@ -39,8 +43,9 @@ def procesar_venta():
     if codigo in productos and cantidad <= int(productos[codigo][4]):  # Si hay suficientes productos en stock
         total = productos[codigo][2] * cantidad  # Calcula el total de la venta
         productos[codigo][4] = int(productos[codigo][4]) - cantidad  # Actualiza la cantidad de productos en stock
-        df = pd.DataFrame.from_dict(productos, orient='index')  # Convierte el diccionario actualizado a un DataFrame
-        df.to_csv('./datos/prueba@gmail.com_pagos.csv', index_label='ID')  # Guarda el DataFrame actualizado en el archivo CSV
+        df = pd.DataFrame.from_dict(productos, orient='index' )# Convierte el diccionario actualizado a un DataFrame
+        df = df.rename(columns={0:"IDX", 1: "Nombre", 2: "Precio", 3:"Descripción", 4:"Unidades"})
+        df.to_csv(f"./datos/{username}_pagos.csv", index_label="ID")  # Guarda el DataFrame actualizado en el archivo CSV
         total_venta.set(f"Total de la venta: ${total}")  # Actualiza el total de la venta
         messagebox.showinfo("Venta procesada", f"El total de la venta es {total}")
     else:
