@@ -10,10 +10,11 @@ def initiation(user):
             
 
 def add_product(user, producto): #Producto debe ser una lista como: [nombre, precio, descripción, unidades]
+
     df = pd.read_csv(f"./datos/{user}_pagos.csv",index_col=0)
 
-    if producto[0] in df['Nombre'].values:
-        df.loc[df['Nombre'] == producto[0],'Unidades'] += int(producto[3])
+    if producto[1] in df['Nombre'].values:
+        df.loc[df['Nombre'] == producto[2],'Unidades'] += int(producto[3])
 
     else:
 
@@ -25,8 +26,7 @@ def add_product(user, producto): #Producto debe ser una lista como: [nombre, pre
         new_row = pd.DataFrame([[Id, producto[0], int(producto[1]), producto[2], int(producto[3])]], columns=df.columns)
         df = pd.concat([df,new_row], ignore_index=True)
 
-    df.to_csv(f"./datos/{user}_pagos.csv") 
-    
+    df.to_csv("./datos/products.csv") 
 
     return Id
 

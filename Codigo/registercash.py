@@ -148,13 +148,50 @@ pagaCon.configure(
     font=("Bahnschrift", 14, "bold")
     )
 
+paga_Con_var = StringVar()
+
 paga_Con = Entry(
-    registercash
+    registercash,
+    textvariable=paga_Con_var  # Asigna la variable de control al Entry
 )
 
 paga_Con.place(x=200, y=350)
 
-pagaCon.place(x=200, y=300)
+def calculate_change(total_cost, amount_paid):
+    return amount_paid - total_cost
+
+paga_Con_var = StringVar()
+
+paga_Con = Entry(
+    registercash,
+    textvariable=paga_Con_var  # Asigna la variable de control al Entry
+)
+
+devuelta = StringVar()
+
+devuelta_label = Label(
+    registercash,
+    textvariable=devuelta,  # Asigna la variable de control a la etiqueta
+    bg="#17202A", 
+    fg="#FFFFFF",
+    font=("Bahnschrift", 14, "bold")
+)
+
+def on_paga_Con_change(*args):
+    total_cost = float(precio_producto_entry.get())  # Asegúrate de que precio_producto_entry esté definido y sea un Entry
+    try:
+        amount_paid = float(paga_Con_var.get())  # Usa la variable de control para obtener la cantidad pagada
+        change = calculate_change(total_cost, amount_paid)
+        devuelta.set(f"Devuelta: {change}")  # Actualiza la variable de control con el cambio calculado
+    except ValueError:
+        # Esto se ejecutará si paga_Con_var no puede convertirse a float, es decir, si el usuario no ha introducido un número válido
+        pass
+
+# Configura la función on_paga_Con_change para que se llame cuando la variable paga_Con_var cambie
+paga_Con_var.trace("w", on_paga_Con_change)
+
+devuelta_label.place(x=500, y=300)  # Coloca la etiqueta en la interfaz de usuario
+
 
 
 button_back = Button(

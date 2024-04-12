@@ -3,11 +3,11 @@ from tkinter import ttk
 from tkinter import messagebox
 import subprocess
 from PIL import Image, ImageTk
-from data import add_product
 from json import load
 import pandas as pd
 import os
 from data import get_updated_data
+
 
 product_window = Tk()
 
