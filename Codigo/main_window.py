@@ -28,7 +28,7 @@ def aboutuswindow():
 mainwindow = Tk()
 
 #caracteristicas de la ventana
-mainwindow.title("Mi empresa")
+mainwindow.title("Mi empresa/version 1.0.0/")
 screen_width = mainwindow.winfo_screenwidth()
 screen_height = mainwindow.winfo_screenheight()
 

@@ -21,7 +21,7 @@ label.place(x=0, y=0)
 
 #------------------------------------------------------
 
-product_window.title("Productos")
+product_window.title("Mi empresa/version 1.0.0/Productos")
 screen_width = product_window.winfo_screenwidth()
 screen_height = product_window.winfo_screenheight()
 

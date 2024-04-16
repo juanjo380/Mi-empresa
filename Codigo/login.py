@@ -8,7 +8,7 @@ from data import initiation
 from json import dump
 
 login = Tk()
-login.title("Iniciar sesión")
+login.title("Mi empresa/version 1.0.0/Iniciar sesión")
 screen_width = login.winfo_screenwidth()
 screen_height = login.winfo_screenheight()
 

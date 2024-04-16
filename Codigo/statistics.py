@@ -6,7 +6,7 @@ import subprocess
 
 statistics = Tk()
 
-statistics.title("Estadísticas")
+statistics.title("Mi empresa/version 1.0.0/Estadísticas")
 screen_width = statistics.winfo_screenwidth()
 screen_height = statistics.winfo_screenheight()
 

@@ -3,6 +3,7 @@ from tkinter import *
 from tkinter import messagebox
 import subprocess
 from json import load
+from PIL import ImageTk, Image
 
 with open('./datos/user.json', "r") as archivo:
         datos = load(archivo)
@@ -22,7 +23,7 @@ productos = df.set_index('ID').T.to_dict('list')
 
 # Inicialización de la ventana
 registercash = Tk()
-registercash.title("Registradora")
+registercash.title("Mi empresa/version 1.0.0/Registradora")
 screen_width = registercash.winfo_screenwidth()
 screen_height = registercash.winfo_screenheight()
 
@@ -33,6 +34,12 @@ y = (screen_height / 2) - (700 / 2) - 50  # Resta 50 para mover la ventana hacia
 # Posiciona la ventana en el centro de la pantalla
 registercash.geometry("900x700+%d+%d" % (x, y))
 registercash.configure(bg="#17202A")
+
+image = Image.open("./Images/registradora.png")
+image = image.resize((900, 700))
+photo = ImageTk.PhotoImage(image)
+label = Label(registercash, image=photo)
+label.place(x=0, y=0)
 
 #----------------------------------------------------------------------
 # Variables
@@ -66,7 +73,7 @@ cantidad_producto = StringVar()
 cantidad_producto_label = Label(
     registercash, 
     text="Cantidad del producto",
-    bg="#17202A",
+    bg="#232323",
     fg="#FFFFFF",
     font=("Bahnschrift", 14, "bold")
     )
@@ -113,7 +120,7 @@ codigo_producto_label = Label(
     registercash,
     text="Código del producto", 
     font=("Bahnschrift", 14, "bold"),
-    bg="#17202A", 
+    bg="#232323", 
     fg="#FFFFFF"
 )
 
@@ -125,7 +132,7 @@ codigo_producto_entry.place(x=200, y=150)
 nombre_producto_label = Label(
     registercash,
     text="Nombre del producto",
-    bg="#17202A", 
+    bg="#232323", 
     fg="#FFFFFF",
     font=("Bahnschrift", 14, "bold")
 )
@@ -138,7 +145,7 @@ nombre_producto_entry.place(x=500, y=150)
 precio_producto_label = Label(
     registercash,
     text="Precio del producto", 
-    bg="#17202A", 
+    bg="#232323", 
     fg="#FFFFFF",
     font=("Bahnschrift", 14, "bold")
 )
@@ -151,7 +158,7 @@ precio_producto_entry.place(x=500, y=250)
 pagaCon = Label(
     registercash,
     text="Paga con",
-    bg="#17202A", 
+    bg="#232323", 
     fg="#FFFFFF",
     font=("Bahnschrift", 14, "bold")
 )

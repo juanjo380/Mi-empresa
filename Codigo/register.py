@@ -8,7 +8,7 @@ import hashlib
 
 register = Tk()
 
-register.title("Registrarse")
+register.title("Mi empresa/version 1.0.0/Registrarse")
 screen_width = register.winfo_screenwidth()
 screen_height = register.winfo_screenheight()
 

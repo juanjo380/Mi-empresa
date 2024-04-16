@@ -13,7 +13,7 @@ photo = ImageTk.PhotoImage(image)
 label = Label(aboutus, image=photo)
 label.place(x=0, y=0)
 
-aboutus.title("Acerca de mi")
+aboutus.title("Mi empresa/version 1.0.0/Acerca de mi")
 screen_width = aboutus.winfo_screenwidth()
 screen_height = aboutus.winfo_screenheight()
 

@@ -8,7 +8,7 @@ import os
 
 orders = Tk()
 
-orders.title("Pedidos")
+orders.title("Mi empresa/version 1.0.0/Pedidos")
 screen_width = orders.winfo_screenwidth()
 screen_height = orders.winfo_screenheight()
 
@@ -44,7 +44,7 @@ else:
         tabla.heading('#0', text='ID', anchor=CENTER)
         tabla.column(column, width=100)
         tabla.heading(column, text=column)
-        
+
     # Agrega las filas a la tabla
     for index, row in df.iterrows():
         tabla.insert('', 'end', values=list(row))
@@ -98,8 +98,8 @@ def back():
 
 label = Label(
     orders, 
-    text="Pedidos",
-    bg="#17202A",
+    text="--Pedidos--",
+    bg="#232323",
     fg="#FFFFFF"
 )
 

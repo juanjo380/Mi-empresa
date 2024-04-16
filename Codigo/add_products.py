@@ -10,7 +10,7 @@ from json import load
 
 #--------------------------------------------------------------
 window_addproducts = Tk()
-window_addproducts.title("Productos")
+window_addproducts.title("Mi empresa/version 1.0.0/añadir productos")
 screen_width = window_addproducts.winfo_screenwidth()
 screen_height = window_addproducts.winfo_screenheight()
 

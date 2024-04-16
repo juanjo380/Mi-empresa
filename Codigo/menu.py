@@ -6,7 +6,7 @@ import subprocess
 from PIL import Image, ImageTk
 
 menu = Tk()
-menu.title("Menu")
+menu.title("Mi empresa/version 1.0.0/Menu")
 screen_width = menu.winfo_screenwidth()
 screen_height = menu.winfo_screenheight()
 
