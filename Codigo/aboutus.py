@@ -14,7 +14,15 @@ label = Label(aboutus, image=photo)
 label.place(x=0, y=0)
 
 aboutus.title("Acerca de mi")
-aboutus.geometry("900x700")
+screen_width = aboutus.winfo_screenwidth()
+screen_height = aboutus.winfo_screenheight()
+
+# Calcula la posición de la ventana
+x = (screen_width / 2) - (900 / 2)
+y = (screen_height / 2) - (700 / 2) - 50  # Resta 50 para mover la ventana hacia arriba
+
+# Posiciona la ventana en el centro de la pantalla
+aboutus.geometry("900x700+%d+%d" % (x, y))
 aboutus.configure(bg="#17202A")
 
 def back():

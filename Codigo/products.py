@@ -11,8 +11,26 @@ from data import get_updated_data
 
 product_window = Tk()
 
+#------------------------------------------------------
+
+image = Image.open("./Images/productos.png")
+image = image.resize((900, 700))
+photo = ImageTk.PhotoImage(image)
+label = Label(product_window, image=photo)
+label.place(x=0, y=0)
+
+#------------------------------------------------------
+
 product_window.title("Productos")
-product_window.geometry("900x700")
+screen_width = product_window.winfo_screenwidth()
+screen_height = product_window.winfo_screenheight()
+
+# Calcula la posición de la ventana
+x = (screen_width / 2) - (900 / 2)
+y = (screen_height / 2) - (700 / 2) - 50  # Resta 50 para mover la ventana hacia arriba
+
+# Posiciona la ventana en el centro de la pantalla
+product_window.geometry("900x700+%d+%d" % (x, y))
 product_window.configure(bg="#17202A")
 
 def back():
@@ -22,7 +40,7 @@ def back():
 label = Label(
     product_window, 
     text="Tus productos",
-    bg="#17202A",
+    bg="#A3051A",
     fg="#FFFFFF"
 )
 
@@ -30,7 +48,7 @@ label.configure(
     font=("Bahnschrift", 28, "bold")
 )
 
-label.place(x=350, y=150)
+label.place(x=350, y=130)
 #tabla
 table = ttk.Treeview(product_window)
 
@@ -111,11 +129,19 @@ def search_product():
 
 # Entry para la búsqueda
 search_entry = Entry(product_window, borderwidth=0, bg="#FFFFFF", fg="#17202A")
-search_entry.place(x=120, y=220)
+search_entry.place(x=120, y=210)
 
 # Botón para la búsqueda
-search_button = Button(product_window, text="Buscar",command=search_product, borderwidth=0, bg="#222323", fg="#FFFFFF")
+search_button = Button(
+    product_window, 
+    text="Buscar",
+    command=search_product, 
+    borderwidth=0, 
+    bg="#A3051A", 
+    fg="#FFFFFF"
+)
+
 search_button.configure(font=("Bahnschrift", 13, "bold"))
-search_button.place(x=220, y=210)
+search_button.place(x=220, y=200)
 
 product_window.mainloop()

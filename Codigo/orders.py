@@ -9,9 +9,23 @@ import os
 orders = Tk()
 
 orders.title("Pedidos")
-orders.geometry("1200x700")
+screen_width = orders.winfo_screenwidth()
+screen_height = orders.winfo_screenheight()
+
+# Calcula la posición de la ventana
+x = (screen_width / 2) - (900 / 2)
+y = (screen_height / 2) - (700 / 2) - 50  # Resta 50 para mover la ventana hacia arriba
+
+# Posiciona la ventana en el centro de la pantalla
+orders.geometry("1000x700+%d+%d" % (x, y))
 orders.configure(bg="#17202A")
 orders.resizable(False, False)
+
+image = Image.open("./Images/pedidos.png")
+image = image.resize((1000, 700))
+photo = ImageTk.PhotoImage(image)
+label = Label(orders, image=photo)
+label.place(x=0, y=0)
 
 # Verifica que el archivo CSV existe
 if not os.path.exists('./datos/Estudiantes.csv'):
@@ -27,10 +41,10 @@ else:
     tabla['columns'] = list(df.columns)
     for column in df.columns:
         tabla.column('#0', width=0, stretch=NO)
-        tabla.heading('#0', text='', anchor=CENTER)
+        tabla.heading('#0', text='ID', anchor=CENTER)
         tabla.column(column, width=100)
         tabla.heading(column, text=column)
-
+        
     # Agrega las filas a la tabla
     for index, row in df.iterrows():
         tabla.insert('', 'end', values=list(row))
@@ -46,7 +60,10 @@ def search_student():
     for row in tabla.get_children():
         if str(tabla.item(row)['values'][0]) == studentcode:
             tabla.selection_set(row)
+            tabla.see(row)  # Desplaza la vista de la tabla hasta el estudiante seleccionado
             return
+        
+    
 
 search_entry = Entry(
     orders,
@@ -92,6 +109,24 @@ label.configure(
 
 label.place(x=500, y=100)
 
+#------------------------------------------------------------------
+
+button_order = Button(
+    orders, 
+    text="Hacer Pedido",
+    borderwidth=0, 
+    compound="center",
+    activeforeground='#FFFFFF',
+    activebackground='#222323',
+)
+
+button_order.configure(
+    font=("Bahnschrift", 14, "bold"), 
+    bg='#222323', 
+    fg="#FFFFFF"
+)
+
+button_order.place(x=200, y=450)
 #------------------------------------------------------------------
 
 button_back = Button(

@@ -7,7 +7,15 @@ from PIL import Image, ImageTk
 
 menu = Tk()
 menu.title("Menu")
-menu.geometry("900x700")
+screen_width = menu.winfo_screenwidth()
+screen_height = menu.winfo_screenheight()
+
+# Calcula la posición de la ventana
+x = (screen_width / 2) - (900 / 2)
+y = (screen_height / 2) - (700 / 2) - 50  # Resta 50 para mover la ventana hacia arriba
+
+# Posiciona la ventana en el centro de la pantalla
+menu.geometry("900x700+%d+%d" % (x, y))
 menu.configure(bg="#17202A")
 
 def back():

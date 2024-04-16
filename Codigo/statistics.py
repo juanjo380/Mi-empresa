@@ -7,7 +7,15 @@ import subprocess
 statistics = Tk()
 
 statistics.title("Estadísticas")
-statistics.geometry("900x700")
+screen_width = statistics.winfo_screenwidth()
+screen_height = statistics.winfo_screenheight()
+
+# Calcula la posición de la ventana
+x = (screen_width / 2) - (900 / 2)
+y = (screen_height / 2) - (700 / 2) - 50  # Resta 50 para mover la ventana hacia arriba
+
+# Posiciona la ventana en el centro de la pantalla
+statistics.geometry("900x700+%d+%d" % (x, y))
 statistics.configure(bg="#17202A")
 
 

@@ -11,7 +11,15 @@ from json import load
 #--------------------------------------------------------------
 window_addproducts = Tk()
 window_addproducts.title("Productos")
-window_addproducts.geometry("900x700")
+screen_width = window_addproducts.winfo_screenwidth()
+screen_height = window_addproducts.winfo_screenheight()
+
+# Calcula la posición de la ventana
+x = (screen_width / 2) - (900 / 2)
+y = (screen_height / 2) - (700 / 2) - 50  # Resta 50 para mover la ventana hacia arriba
+
+# Posiciona la ventana en el centro de la pantalla
+window_addproducts.geometry("900x700+%d+%d" % (x, y))
 window_addproducts.configure(bg="#17202A")
 
 #--------------------------------------------------------------

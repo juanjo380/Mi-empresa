@@ -9,7 +9,15 @@ from json import dump
 
 login = Tk()
 login.title("Iniciar sesión")
-login.geometry("900x700")
+screen_width = login.winfo_screenwidth()
+screen_height = login.winfo_screenheight()
+
+# Calcula la posición de la ventana
+x = (screen_width / 2) - (900 / 2)
+y = (screen_height / 2) - (700 / 2) - 50  # Resta 50 para mover la ventana hacia arriba
+
+# Posiciona la ventana en el centro de la pantalla
+login.geometry("900x700+%d+%d" % (x, y))
 login.configure(bg="#17202A")
 
 image = Image.open("./Images/login.png")

@@ -29,7 +29,15 @@ mainwindow = Tk()
 
 #caracteristicas de la ventana
 mainwindow.title("Mi empresa")
-mainwindow.geometry("900x700")
+screen_width = mainwindow.winfo_screenwidth()
+screen_height = mainwindow.winfo_screenheight()
+
+# Calcula la posición de la ventana
+x = (screen_width / 2) - (900 / 2)
+y = (screen_height / 2) - (700 / 2) - 50  # Resta 50 para mover la ventana hacia arriba
+
+# Posiciona la ventana en el centro de la pantalla
+mainwindow.geometry("900x700+%d+%d" % (x, y))
 mainwindow.configure(bg="#17202A")
 
 # Imagen de fondo

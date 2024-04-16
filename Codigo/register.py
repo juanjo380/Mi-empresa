@@ -9,7 +9,15 @@ import hashlib
 register = Tk()
 
 register.title("Registrarse")
-register.geometry("900x700")
+screen_width = register.winfo_screenwidth()
+screen_height = register.winfo_screenheight()
+
+# Calcula la posición de la ventana
+x = (screen_width / 2) - (900 / 2)
+y = (screen_height / 2) - (700 / 2) - 50  # Resta 50 para mover la ventana hacia arriba
+
+# Posiciona la ventana en el centro de la pantalla
+register.geometry("900x700+%d+%d" % (x, y))
 register.configure(bg="#17202A")
 
 def back():
