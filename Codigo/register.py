@@ -9,6 +9,7 @@ import hashlib
 register = Tk()
 
 register.title("Mi empresa/version 1.0.0/Registrarse")
+register.resizable(False, False)
 screen_width = register.winfo_screenwidth()
 screen_height = register.winfo_screenheight()
 

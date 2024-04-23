@@ -24,6 +24,7 @@ productos = df.set_index('ID').T.to_dict('list')
 # Inicialización de la ventana
 registercash = Tk()
 registercash.title("Mi empresa/version 1.0.0/Registradora")
+registercash.resizable(False, False)
 screen_width = registercash.winfo_screenwidth()
 screen_height = registercash.winfo_screenheight()
 
@@ -89,7 +90,17 @@ procesar_venta_button = Button(
     command=procesar_venta
 )
 
-procesar_venta_button.place(x=500,y=500)
+procesar_venta_button.configure(
+    bg="#222323",
+    fg="#FFFFFF",
+    font=("Bahnschrift", 14, "bold"),
+    borderwidth=0,
+    compound="center",
+    activeforeground='#FFFFFF',
+    activebackground='#222323'
+)
+
+procesar_venta_button.place(x=360,y=450)
 
 #----------------------------------------------------------------------
 
@@ -163,10 +174,12 @@ pagaCon = Label(
     font=("Bahnschrift", 14, "bold")
 )
 pagaCon.configure(
-    bg="#17202A", 
+    bg="#232323", 
     fg="#FFFFFF",
     font=("Bahnschrift", 14, "bold")
     )
+
+pagaCon.place(x=210,y=300)
 
 paga_Con_var = StringVar()
 

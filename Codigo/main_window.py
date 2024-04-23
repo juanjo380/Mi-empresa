@@ -29,6 +29,7 @@ mainwindow = Tk()
 
 #caracteristicas de la ventana
 mainwindow.title("Mi empresa/version 1.0.0/")
+mainwindow.resizable(False, False)
 screen_width = mainwindow.winfo_screenwidth()
 screen_height = mainwindow.winfo_screenheight()
 

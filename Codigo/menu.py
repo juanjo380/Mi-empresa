@@ -7,6 +7,7 @@ from PIL import Image, ImageTk
 
 menu = Tk()
 menu.title("Mi empresa/version 1.0.0/Menu")
+menu.resizable(False, False)
 screen_width = menu.winfo_screenwidth()
 screen_height = menu.winfo_screenheight()
 

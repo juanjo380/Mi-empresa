@@ -9,6 +9,7 @@ from json import dump
 
 login = Tk()
 login.title("Mi empresa/version 1.0.0/Iniciar sesión")
+login.resizable(False, False)
 screen_width = login.winfo_screenwidth()
 screen_height = login.winfo_screenheight()
 

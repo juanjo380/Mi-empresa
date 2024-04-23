@@ -22,6 +22,7 @@ label.place(x=0, y=0)
 #------------------------------------------------------
 
 product_window.title("Mi empresa/version 1.0.0/Productos")
+product_window.resizable(False, False)
 screen_width = product_window.winfo_screenwidth()
 screen_height = product_window.winfo_screenheight()
 
@@ -68,7 +69,7 @@ table.column('Descripción', anchor=W, width=200)
 table.column('Precio', anchor=CENTER, width=120)
 table.column('Unidades disponibles', anchor=CENTER, width=120)
 
-#encabezados de las columnas
+# Encabezados de las columnas
 table.heading('#0', text='', anchor=CENTER)
 table.heading('ID', text='ID', anchor=CENTER)
 table.heading('Nombre', text='Nombre', anchor=CENTER)

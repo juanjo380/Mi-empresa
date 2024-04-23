@@ -5,10 +5,12 @@ import subprocess
 from PIL import ImageTk, Image
 import pandas as pd
 import os
+import csv
 
 orders = Tk()
 
 orders.title("Mi empresa/version 1.0.0/Pedidos")
+orders.resizable(False, False)
 screen_width = orders.winfo_screenwidth()
 screen_height = orders.winfo_screenheight()
 
@@ -38,16 +40,28 @@ else:
     tabla = ttk.Treeview(orders)
 
     # Configura las columnas de la tabla
-    tabla['columns'] = list(df.columns)
-    for column in df.columns:
-        tabla.column('#0', width=0, stretch=NO)
-        tabla.heading('#0', text='ID', anchor=CENTER)
-        tabla.column(column, width=100)
-        tabla.heading(column, text=column)
+tabla['columns'] = ('ID','Estudiante','Pedido','Precio','Abono')
 
-    # Agrega las filas a la tabla
-    for index, row in df.iterrows():
-        tabla.insert('', 'end', values=list(row))
+#columnas
+tabla.column('#0', width=0, stretch=NO)
+tabla.column('ID', anchor=CENTER, width=50)
+tabla.column('Estudiante', anchor=CENTER, width=230)
+tabla.column('Pedido', anchor=CENTER, width=200)
+tabla.column('Precio', anchor=CENTER, width=100)
+tabla.column('Abono', anchor=CENTER, width=100)
+
+# Encabezado de las columnas
+tabla.heading('#0', text='', anchor=CENTER)
+tabla.heading('ID', text='ID', anchor=CENTER)
+tabla.heading('Estudiante', text='Estudiante', anchor=CENTER)
+tabla.heading('Pedido', text='Pedido', anchor=CENTER)
+tabla.heading('Precio', text='Precio', anchor=CENTER)
+tabla.heading('Abono', text='Abono', anchor=CENTER)
+
+
+# Agrega las filas a la tabla
+for index, row in df.iterrows():
+    tabla.insert('', 'end', values=list(row))
 
     # Coloca la tabla en la interfaz de usuario
     tabla.place(x=200,y=200)
@@ -111,6 +125,46 @@ label.place(x=500, y=100)
 
 #------------------------------------------------------------------
 
+def pedido():
+    # Obtiene el estudiante seleccionado de la tabla
+    selected = tabla.selection()
+
+    if selected:
+        # Crea una nueva ventana
+        order_window = Toplevel(orders)
+        order_window.title("Agregar pedido")
+
+        # Crea las entradas para el pedido y el precio
+        order_entry = Entry(order_window)
+        order_entry.pack()
+        price_entry = Entry(order_window)
+        price_entry.pack()
+
+        # Crea un botón para agregar el pedido y el precio al estudiante
+        add_button = Button(order_window, text="Agregar", command=lambda: add_order(selected[0], order_entry.get(), price_entry.get()))
+        add_button.pack()
+    else:
+        print("No se seleccionó ningún estudiante.")
+
+def add_order(student, order, price):
+    # Obtiene los valores del estudiante
+    values = tabla.item(student)['values']
+
+    # Agrega el pedido y el precio a los valores del estudiante
+    values.append(order)
+    values.append(price)
+
+    # Actualiza el estudiante en la tabla
+    tabla.item(student, values=values)
+
+    # Agrega el pedido y el precio al archivo CSV
+    with open('./datos/Estudiantes.csv', 'a', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(values)
+
+    tabla.update()
+
+
 button_order = Button(
     orders, 
     text="Hacer Pedido",
@@ -118,6 +172,8 @@ button_order = Button(
     compound="center",
     activeforeground='#FFFFFF',
     activebackground='#222323',
+    command=pedido,
+    
 )
 
 button_order.configure(
@@ -127,6 +183,28 @@ button_order.configure(
 )
 
 button_order.place(x=200, y=450)
+
+#------------------------------------------------------------------
+
+def abono():
+    pass
+
+button_abono = Button(
+    orders, 
+    text="Abonar Pedido",
+    borderwidth=0, 
+    compound="center",
+    activeforeground='#FFFFFF',
+    activebackground='#222323',
+)
+
+button_abono.configure(
+    font=("Bahnschrift", 14, "bold"), 
+    bg='#222323', 
+    fg="#FFFFFF"
+)
+
+button_abono.place(x=400, y=450)
 #------------------------------------------------------------------
 
 button_back = Button(
