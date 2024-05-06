@@ -39,9 +39,9 @@ def orders():
     menu.destroy()
     subprocess.call(["python","Codigo/orders.py"])
 
-def statistics():
-    menu.destroy()
-    subprocess.call(["python","Codigo/statistics.py"])
+#def statistics():
+    #menu.destroy()
+    #subprocess.call(["python","Codigo/statistics.py"])
 
 image = Image.open("./Images/menu.png")
 image = image.resize((900, 700))
@@ -156,7 +156,7 @@ button_statistics = Button(
     compound="center",
     activeforeground='#FFFFFF',
     activebackground='#232323',
-    command=statistics
+    #command=statistics
 )
 
 button_statistics.configure(

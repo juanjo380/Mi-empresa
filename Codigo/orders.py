@@ -6,6 +6,9 @@ from PIL import ImageTk, Image
 import pandas as pd
 import os
 import csv
+from tkinter import simpledialog
+
+
 
 orders = Tk()
 
@@ -125,44 +128,56 @@ label.place(x=500, y=100)
 
 #------------------------------------------------------------------
 
-def pedido():
+def hacer_pedido():
     # Obtiene el estudiante seleccionado de la tabla
     selected = tabla.selection()
 
     if selected:
-        # Crea una nueva ventana
-        order_window = Toplevel(orders)
-        order_window.title("Agregar pedido")
+        # Solicita el pedido y el precio
+        pedido = simpledialog.askstring("Pedido", "Ingrese el pedido:")
+        precio = simpledialog.askstring("Precio", "Ingrese el precio:")
 
-        # Crea las entradas para el pedido y el precio
-        order_entry = Entry(order_window)
-        order_entry.pack()
-        price_entry = Entry(order_window)
-        price_entry.pack()
+        # Carga los datos en un DataFrame de pandas
+        df = pd.read_csv('./datos/Estudiantes.csv', encoding='utf-8')
 
-        # Crea un botón para agregar el pedido y el precio al estudiante
-        add_button = Button(order_window, text="Agregar", command=lambda: add_order(selected[0], order_entry.get(), price_entry.get()))
-        add_button.pack()
+        # Obtiene el índice de la fila seleccionada
+        index = tabla.item(selected[0])['values'][0]
+
+        # Actualiza el pedido y el precio del estudiante seleccionado
+        df.loc[df['ID'] == index, 'Pedido'] = pedido
+        df.loc[df['ID'] == index, 'Precio'] = precio
+
+        # Guarda los cambios en el archivo CSV
+        df.to_csv('./datos/Estudiantes.csv', encoding='utf-8', index=False)
+
+        # Actualiza la tabla
+        tabla.update()
     else:
         print("No se seleccionó ningún estudiante.")
 
-def add_order(student, order, price):
-    # Obtiene los valores del estudiante
-    values = tabla.item(student)['values']
 
-    # Agrega el pedido y el precio a los valores del estudiante
-    values.append(order)
-    values.append(price)
+def hacer_abono():
+    seleccion = tabla.selection()
+    #seleccion estudiante
+    if seleccion:
+        abono = simpledialog.askstring("Abono","Ingrese la cantidad a abonar")
+        
+        #carga los estudiantes
+        df = pd.read_csv('./datos/Estudiantes.csv',encoding = 'utf-8')
 
-    # Actualiza el estudiante en la tabla
-    tabla.item(student, values=values)
+        index = tabla.item#(selected[])
 
-    # Agrega el pedido y el precio al archivo CSV
-    with open('./datos/Estudiantes.csv', 'a', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow(values)
+        index = tabla.item(seleccion[0])['values'][0]
 
-    tabla.update()
+        # Actualiza el abono del estudiante seleccionado
+        df.loc[df['ID'] == index, 'Abono'] = abono
+
+
+        df.to_csv('./datos/Estudiantes.csv', encoding = 'utf-8',index = False)
+
+        tabla.update()
+    else:
+        print("No se seleccionó ningún estudiante.")
 
 
 button_order = Button(
@@ -171,14 +186,14 @@ button_order = Button(
     borderwidth=0, 
     compound="center",
     activeforeground='#FFFFFF',
-    activebackground='#222323',
-    command=pedido,
+    activebackground='#232E36',
+    command=hacer_pedido,
     
 )
 
 button_order.configure(
     font=("Bahnschrift", 14, "bold"), 
-    bg='#222323', 
+    bg='#232E36', 
     fg="#FFFFFF"
 )
 
@@ -195,12 +210,13 @@ button_abono = Button(
     borderwidth=0, 
     compound="center",
     activeforeground='#FFFFFF',
-    activebackground='#222323',
+    activebackground='#232E36',
+    command = hacer_abono
 )
 
 button_abono.configure(
     font=("Bahnschrift", 14, "bold"), 
-    bg='#222323', 
+    bg='#232E36', 
     fg="#FFFFFF"
 )
 
