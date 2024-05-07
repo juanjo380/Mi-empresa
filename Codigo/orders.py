@@ -247,9 +247,6 @@ button_order.place(x=200, y=450)
 
 #------------------------------------------------------------------
 
-def abono():
-    pass
-
 button_abono = Button(
     orders, 
     text="Abonar Pedido",
