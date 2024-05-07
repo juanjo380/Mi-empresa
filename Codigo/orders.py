@@ -189,6 +189,42 @@ def hacer_abono():
     else:
         print("No se seleccionó ningún estudiante.")
 
+def eliminar_pedido():
+    seleccion = tabla.selection()
+
+    if seleccion:
+        df = pd.read_csv('./datos/Estudiantes.csv', encoding='utf-8')
+
+        index = tabla.item(seleccion[0])['values'][0]
+
+        df.loc[df['ID'] == index, 'Pedido'] = ''
+        df.loc[df['ID'] == index, 'Precio'] = ''
+        df.loc[df['ID'] == index, 'Abono'] = ''
+
+        df.to_csv('./datos/Estudiantes.csv', encoding='utf-8', index=False)
+
+        actualizar_tabla()
+    else:
+        print("No se seleccionó ningún estudiante.")
+
+button_delete = Button(
+    orders,
+    text="Eliminar Pedido",
+    borderwidth=0,
+    compound="center",
+    activeforeground='#FFFFFF',
+    activebackground='#232E36',
+    command=eliminar_pedido
+)
+
+button_delete.configure(
+    font=("Bahnschrift", 14, "bold"),
+    bg='#232E36',
+    fg="#FFFFFF"
+)
+
+button_delete.place(x=600, y=450)
+
 
 button_order = Button(
     orders, 
