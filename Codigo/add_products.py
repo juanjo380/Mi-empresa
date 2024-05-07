@@ -43,6 +43,11 @@ def add_product_table():
     availability_dish.delete(0, 'end')
 #--------------------------------------------------------------
 
+def eliminar_producto():
+    pass
+
+#--------------------------------------------------------------
+
 def back():
     window_addproducts.destroy()
     subprocess.call(["python", "Codigo/menu.py"])
