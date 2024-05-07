@@ -127,6 +127,15 @@ label.configure(
 label.place(x=500, y=100)
 
 #------------------------------------------------------------------
+def actualizar_tabla():
+    # Borra todos los elementos de la tabla
+    for i in tabla.get_children():
+        tabla.delete(i)
+
+    # Vuelve a llenar la tabla con los datos actualizados
+    df = pd.read_csv('./datos/Estudiantes.csv', encoding='utf-8')
+    for index, row in df.iterrows():
+        tabla.insert("", "end", values=list(row))
 
 def hacer_pedido():
     # Obtiene el estudiante seleccionado de la tabla
@@ -136,6 +145,7 @@ def hacer_pedido():
         # Solicita el pedido y el precio
         pedido = simpledialog.askstring("Pedido", "Ingrese el pedido:")
         precio = simpledialog.askstring("Precio", "Ingrese el precio:")
+
 
         # Carga los datos en un DataFrame de pandas
         df = pd.read_csv('./datos/Estudiantes.csv', encoding='utf-8')
@@ -151,7 +161,7 @@ def hacer_pedido():
         df.to_csv('./datos/Estudiantes.csv', encoding='utf-8', index=False)
 
         # Actualiza la tabla
-        tabla.update()
+        actualizar_tabla()
     else:
         print("No se seleccionó ningún estudiante.")
 
@@ -161,7 +171,7 @@ def hacer_abono():
     #seleccion estudiante
     if seleccion:
         abono = simpledialog.askstring("Abono","Ingrese la cantidad a abonar")
-        
+
         #carga los estudiantes
         df = pd.read_csv('./datos/Estudiantes.csv',encoding = 'utf-8')
 
@@ -175,7 +185,7 @@ def hacer_abono():
 
         df.to_csv('./datos/Estudiantes.csv', encoding = 'utf-8',index = False)
 
-        tabla.update()
+        actualizar_tabla()
     else:
         print("No se seleccionó ningún estudiante.")
 
