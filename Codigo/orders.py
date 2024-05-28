@@ -8,8 +8,6 @@ import os
 import csv
 from tkinter import simpledialog
 
-
-
 orders = Tk()
 
 orders.title("Mi empresa/version 1.0.0/Pedidos")
