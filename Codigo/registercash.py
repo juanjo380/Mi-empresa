@@ -46,6 +46,9 @@ codigo_producto = StringVar()
 cantidad_producto = StringVar()
 total_venta_text = StringVar()
 total_venta_text.set("Total de la venta: $0")
+paga_con = StringVar()
+cambio_text = StringVar()
+cambio_text.set("Cambio: $0")
 
 # Creación de los widgets
 codigo_producto_label = Label(
@@ -91,20 +94,43 @@ cantidad_producto_label = Label(
     fg="#FFFFFF",
     font=("Bahnschrift", 14, "bold")
 )
-cantidad_producto_label.place(x=200,y=200)
+cantidad_producto_label.place(x=200, y=200)
 
 cantidad_producto_entry = Entry(registercash, textvariable=cantidad_producto)
-cantidad_producto_entry.place(x=200,y=250)
+cantidad_producto_entry.place(x=200, y=250)
 
 total_venta_label = Label(
     registercash, 
     textvariable=total_venta_text, 
+    bg="#232a2f", 
+    fg="#FFFFFF", 
+    font=("Bahnschrift", 14, "bold")
+)
+
+total_venta_label.place(x=200, y=400)
+
+paga_con_label = Label(
+    registercash, 
+    text="Paga con:", 
+    bg="#232323", 
+    fg="#FFFFFF", 
+    font=("Bahnschrift", 14, "bold")
+)
+
+paga_con_label.place(x=200, y=300)
+
+paga_con_entry = Entry(registercash, textvariable=paga_con)
+paga_con_entry.place(x=200, y=350)
+
+cambio_label = Label(
+    registercash, 
+    textvariable=cambio_text, 
     bg="#232d34", 
     fg="#FFFFFF", 
     font=("Bahnschrift", 14, "bold")
 )
 
-total_venta_label.place(x=200, y=450)
+cambio_label.place(x=200, y=450)
 
 def calcular_total(*args):
     try:
@@ -114,12 +140,29 @@ def calcular_total(*args):
             precio = float(productos[codigo][2])  # Obtiene el precio del producto y lo convierte a un número
             total = precio * cantidad  # Calcula el total de la venta
             total_venta_text.set(f"Total de la venta: ${total:.2f}")  # Actualiza el total de la venta
+            calcular_cambio()  # Calcula el cambio si se ha introducido un valor en "paga con"
     except ValueError:
-        pass  # Ignora el error si el código o la cantidad no son números enteros
+        total_venta_text.set("Total de la venta: $0")
+        cambio_text.set("Cambio: $0")
+
+def calcular_cambio(*args):
+    try:
+        total = float(total_venta_text.get().split('$')[1])
+        paga = float(paga_con.get())
+        if paga >= total:
+            cambio = paga - total
+            cambio_text.set(f"Cambio: ${cambio:.2f}")
+        else:
+            cambio_text.set("Cambio: $0")
+    except ValueError:
+        cambio_text.set("Cambio: $0")
 
 # Llama a calcular_total cuando se cambia el código del producto o la cantidad
 codigo_producto.trace("w", calcular_total)
 cantidad_producto.trace("w", calcular_total)
+
+# Llama a calcular_cambio cuando se cambia el valor en "paga con"
+paga_con.trace("w", calcular_cambio)
 
 def procesar_venta():
     try:
@@ -130,7 +173,7 @@ def procesar_venta():
             df = pd.DataFrame.from_dict(productos, orient='index')  # Convierte el diccionario actualizado a un DataFrame
             df = df.rename(columns={0:"IDX", 1: "Nombre", 2: "Precio", 3:"Descripción", 4:"Unidades"})
             df.to_csv(f"./datos/{username}_pagos.csv", index_label="ID")  # Guarda el DataFrame actualizado en el archivo CSV
-            messagebox.showinfo("Venta procesada", f"El total de la venta es {total_venta_text.get()}")
+            messagebox.showinfo("Venta procesada", f"El total de la venta es {total_venta_text.get()}\n{cambio_text.get()}")
         else:
             messagebox.showerror("Error", "No hay suficientes productos en stock")
     except ValueError:
@@ -142,15 +185,15 @@ procesar_venta_button = Button(
     command=procesar_venta
 )
 procesar_venta_button.configure(
-    bg="#233440",
+    bg="#23313b",
     fg="#FFFFFF",
     font=("Bahnschrift", 14, "bold"),
     borderwidth=0,
     compound="center",
     activeforeground='#FFFFFF',
-    activebackground='#233440'
+    activebackground='#23313b'
 )
-procesar_venta_button.place(x=360, y=530)
+procesar_venta_button.place(x=360, y=500)
 
 def autocompletar(*args):
     codigo = codigo_producto.get()
