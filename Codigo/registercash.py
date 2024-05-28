@@ -96,7 +96,14 @@ cantidad_producto_label.place(x=200,y=200)
 cantidad_producto_entry = Entry(registercash, textvariable=cantidad_producto)
 cantidad_producto_entry.place(x=200,y=250)
 
-total_venta_label = Label(registercash, textvariable=total_venta_text, bg="#232323", fg="#FFFFFF", font=("Bahnschrift", 14, "bold"))
+total_venta_label = Label(
+    registercash, 
+    textvariable=total_venta_text, 
+    bg="#232d34", 
+    fg="#FFFFFF", 
+    font=("Bahnschrift", 14, "bold")
+)
+
 total_venta_label.place(x=200, y=450)
 
 def calcular_total(*args):
@@ -135,13 +142,13 @@ procesar_venta_button = Button(
     command=procesar_venta
 )
 procesar_venta_button.configure(
-    bg="#222323",
+    bg="#233440",
     fg="#FFFFFF",
     font=("Bahnschrift", 14, "bold"),
     borderwidth=0,
     compound="center",
     activeforeground='#FFFFFF',
-    activebackground='#222323'
+    activebackground='#233440'
 )
 procesar_venta_button.place(x=360, y=530)
 
