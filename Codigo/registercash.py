@@ -4,6 +4,7 @@ from tkinter import messagebox
 import subprocess
 from json import load
 from PIL import ImageTk, Image
+import datetime
 
 # Carga los datos del usuario
 with open('./datos/user.json', "r") as archivo:
@@ -39,7 +40,7 @@ image = Image.open("./Images/registradora.png")
 image = image.resize((900, 700))
 photo = ImageTk.PhotoImage(image)
 label = Label(registercash, image=photo)
-label.place(x=0, y=0)
+label.place(x=0, y=0)  
 
 # Variables
 codigo_producto = StringVar()
@@ -210,6 +211,13 @@ def procesar_venta():
             total_ventas_label.config(text=f"Total ventas en el día: ${total_ventas_dia:.2f}")  # Actualizar el label del total de ventas en el día
             
             guardar_total_ventas()  # Guardar el total de ventas actualizado
+
+            cantidad_vendido = cantidad_producto_entry.get()
+            precio_vendido = precio_producto_entry.get()
+            nombre_vendido = nombre_producto_entry.get()
+
+            with open('./datos/pagos.txt', 'a') as f:
+                f.write(f'Cantidad vendida: {cantidad_vendido},Nombre:{nombre_vendido},Precio: {precio_vendido}\n')
         else:
             messagebox.showerror("Error", "No hay suficientes productos en stock")
     except ValueError:
