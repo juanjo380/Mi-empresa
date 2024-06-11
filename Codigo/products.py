@@ -7,6 +7,7 @@ from json import load
 import pandas as pd
 import os
 from data import get_updated_data
+from tkinter import simpledialog
 
 
 product_window = Tk()
@@ -37,6 +38,9 @@ product_window.configure(bg="#17202A")
 def back():
     product_window.destroy()
     subprocess.call(["python","Codigo/menu.py"])
+
+#--------------------------------------
+
 #label
 label = Label(
     product_window, 
@@ -144,5 +148,64 @@ search_button = Button(
 
 search_button.configure(font=("Bahnschrift", 13, "bold"))
 search_button.place(x=220, y=200)
+
+def actualizar_tabla(user):
+    # Limpia la tabla
+    for i in table.get_children():
+        table.delete(i)
+
+    # Obtiene los datos actualizados
+    df = get_updated_data(user)
+
+    for index, row in df.iterrows():
+        try:
+            # Intenta insertar los valores en la tabla
+            table.insert('', 'end', values=(row['ID'], row['Nombre'], row['Precio'], row['Descripción'], row['Unidades']))
+        except Exception as e:
+            # Imprime cualquier error que ocurra
+            print(f"Error al insertar fila {index}: {e}")
+
+def agregar_stock(user):
+    # Verifica si se ha seleccionado un producto en la tabla
+    if not table.selection():
+        messagebox.showinfo("Error", "Seleccione un producto para agregar stock.")
+        return
+
+    # Obtiene el índice de la fila seleccionada
+    selected_index = table.selection()[0]
+
+    # Lee el archivo CSV del usuario
+    df = pd.read_csv(f"./datos/{user}_pagos.csv")
+
+    # Obtiene el índice de la fila seleccionada en el DataFrame
+    index = int(selected_index[1:]) - 1
+
+    # Solicita al usuario ingresar la cantidad de stock a agregar
+    agregar = simpledialog.askinteger("Agregar stock", "Ingrese la cantidad de stock a agregar")
+
+    if agregar is not None:  # Si se proporciona un valor válido
+        # Actualiza la cantidad de stock en el DataFrame
+        df.loc[index, 'Unidades'] += agregar
+
+        # Guarda los cambios en el archivo CSV
+        df.to_csv(f"./datos/{user}_pagos.csv", index=False)
+
+        # Actualiza la tabla con los datos actualizados
+        actualizar_tabla(user)
+
+# Botón para agregar stock
+agregar_s = Button(
+    product_window,
+    text="Agregar stock",
+    bg="#a6a6a6",
+    fg="#FFFFFF",
+    command=lambda: agregar_stock(username)  # Lambda se utiliza para pasar el nombre de usuario como argumento a la función
+)
+
+agregar_s.configure(
+    font=("Bahnschrift", 14, "bold")
+)
+
+agregar_s.place(x=150, y=490)
 
 product_window.mainloop()

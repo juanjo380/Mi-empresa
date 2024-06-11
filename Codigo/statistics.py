@@ -1,11 +1,53 @@
 from tkinter import *
-from tkinter import ttk
 from tkinter import messagebox
-from PIL import ImageTk, Image
+import pandas as pd
+import os
 import subprocess
 
-statistics = Tk()
+def volver():
+    statistics.destroy()
+    subprocess.call(["python", "Codigo/menu.py"])
 
+def cargar_estadisticas():
+    if not os.path.exists('./datos/Estudiantes.csv'):
+        messagebox.showerror("Error", "No se pudo encontrar el archivo CSV.")
+        return
+
+    df = pd.read_csv('./datos/Estudiantes.csv', encoding='utf-8')
+
+    # Filtra los datos para incluir solo aquellos donde el campo 'Pedido' no esté vacío
+    df = df[df['Pedido'].notna() & (df['Pedido'] != '')]
+
+    # Impresiones de depuración
+    print("Datos filtrados:")
+    print(df)
+
+    # Grupos de grados
+    grados = ["6A", "6B", "7A", "7B", "8A", "9A", "10A", "11A"]
+    resultados = {grado: 0.0 for grado in grados}  # Diccionario para almacenar resultados por grado
+
+    # Iterar sobre cada grado
+    for grado in grados:
+        # Filtrar los datos para el grado actual
+        datos = df[df['ID'] == grado]
+
+        # Extraer los precios de los encargos y sumarlos
+        total_precio = datos['Precio'].replace('', 0).astype(float).sum()
+
+        # Almacenar el total en el diccionario de resultados
+        resultados[grado] = total_precio
+
+    # Impresiones de depuración
+    print("Resultados:")
+    print(resultados)
+
+    # Actualiza la interfaz gráfica con los resultados
+    for grado, total in resultados.items():
+        label_text = f"Grado {grado}: Total Ganancias de encargos = ${total:.2f}"
+        Label(statistics, text=label_text, font=("Bahnschrift", 14), bg='#17202A', fg="#FFFFFF").pack(anchor='w', padx=20, pady=5)
+
+
+statistics = Tk()
 statistics.title("Mi empresa/version 1.0.0/Estadísticas")
 statistics.resizable(False, False)
 screen_width = statistics.winfo_screenwidth()
@@ -19,156 +61,45 @@ y = (screen_height / 2) - (700 / 2) - 50  # Resta 50 para mover la ventana hacia
 statistics.geometry("900x700+%d+%d" % (x, y))
 statistics.configure(bg="#17202A")
 
-
-def back():
-    statistics.destroy()
-    subprocess.call(["python", "Codigo/menu.py"])
-#------------------------------------------
-total_encargos = StringVar()
-total_encargos.set("Total encargos: 0")
-total_encargos = Label(
-    statistics,
-    textvariable=total_encargos,
-    bg='#17202A',
-    fg='#FFFFFF'
-)
-
-total_encargos.place()
-#------------------------------------------
-sold_products_var = StringVar()
-sold_products_var.set("Productos vendidos: 0")
-sold_products_label = Label(
+label_title = Label(
     statistics, 
-    textvariable=sold_products_var, 
-    bg="#17202A", 
+    text="Estadísticas", 
+    font=("Bahnschrift", 28, "bold"), 
+    bg='#232323', 
     fg="#FFFFFF"
 )
+label_title.pack(pady=20)
 
-sold_products_label.place(x=100, y=100)
-#------------------------------------------
-total_earnings_var = StringVar()
-total_earnings_var.set("Ganancias totales: 0")
-total_earnings_label = Label(
-    statistics, 
-    textvariable=total_earnings_var, 
-    bg="#17202A", 
-    fg="#FFFFFF"
-)
-
-total_earnings_label.place(x=100, y=140)
-#------------------------------------------
-total_6A = StringVar()
-total_6A.set("Ganancias totales 6A: 0")
-
-total_6A = Label(
-    statistics, 
-    textvariable=total_6A, 
-    bg="#17202A",
-    fg="#FFFFFF"
-)
-
-total_6A.place(x=100, y=170)
-#------------------------------------------
-total_6B = StringVar()
-total_6B.set("Ganancias totales 6B: 0")
-
-total_6B = Label(
-    statistics, 
-    textvariable=total_6B, 
-    bg="#17202A", 
-    fg="#FFFFFF"
-)
-
-total_6B.place(x=100, y=190)
-#------------------------------------------
-total_7A = StringVar()
-total_7A.set("Ganancias totales 7A: 0")
-
-total_7A = Label(
-    statistics, 
-    textvariable=total_7A, 
-    bg="#17202A",
-    fg="#FFFFFF"
-)
-
-total_7A.place(x=100, y=220)
-#------------------------------------------
-total_7B = StringVar()
-total_7B.set("Ganancias totales 7B: 0")
-
-total_7B = Label(
-    statistics, 
-    textvariable=total_7B, 
-    bg="#17202A", 
-    fg="#FFFFFF"
-)
-
-total_7B.place(x=100, y=260)
-#------------------------------------------
-total_8A = StringVar()
-total_8A.set("Ganancias totales 8A: 0")
-
-total_8A = Label(
-    statistics, 
-    textvariable=total_8A, 
-    bg="#17202A", 
-    fg="#FFFFFF"
-)
-
-total_8A.place(x=100, y=300)
-#------------------------------------------
-total_9A = StringVar()
-total_9A.set("Ganancias totales 9A: 0")
-
-total_9A = Label(
-    statistics, 
-    textvariable=total_9A, 
-    bg="#17202A", 
-    fg="#FFFFFF"
-)
-
-total_9A.place(x=100, y=330)
-#------------------------------------------
-total_10A = StringVar()
-total_10A.set("Ganancias totales 10A: 0")
-
-total_10A = Label(
-    statistics, 
-    textvariable=total_10A, 
-    bg="#17202A", 
-    fg="#FFFFFF"
-)
-
-total_10A.place(x=100, y=370)
-#------------------------------------------
-total_11A = StringVar()
-total_11A.set("Ganancias totales 11A: 0")
-
-total_11A = Label(
-    statistics, 
-    textvariable=total_11A,
-    bg="#17202A", 
-    fg="#FFFFFF"
-)
-
-total_11A.place(x=100, y=400)
-#------------------------------------------
-button_back = Button(
+button_volver = Button(
     statistics, 
     text="Volver",
     borderwidth=0, 
     compound="center",
     activeforeground='#FFFFFF',
     activebackground='#222323',
-    command=back
+    command=volver
 )
-
-button_back.configure(
+button_volver.configure(
     font=("Bahnschrift", 14, "bold"), 
     bg='#222323', 
     fg="#FFFFFF"
 )
+button_volver.place(x=10, y=10)
 
-button_back.place(x=10, y=10)
+label_ventas = Label(
+    statistics, 
+    text="", 
+    font=("Bahnschrift", 14), 
+    bg='#17202A', 
+    fg="#FFFFFF"
+)
+
+label_ventas.pack(
+    anchor='w', 
+    padx=20, 
+    pady=5
+)
+
+cargar_estadisticas()  # Llama a la función después de que la ventana se haya creado y mostrado
 
 statistics.mainloop()
