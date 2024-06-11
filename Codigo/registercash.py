@@ -164,7 +164,36 @@ cantidad_producto.trace("w", calcular_total)
 # Llama a calcular_cambio cuando se cambia el valor en "paga con"
 paga_con.trace("w", calcular_cambio)
 
+import json
+
+def cargar_total_ventas():
+    try:
+        with open('./datos/total_ventas.json', 'r') as file:
+            return float(json.load(file))
+    except FileNotFoundError:
+        return 0.0
+
+total_ventas_dia = cargar_total_ventas()
+
+# Crea el label para mostrar el total de ventas en el día
+total_ventas_label = Label(
+    registercash, 
+    text=f"Total ventas en el día: ${total_ventas_dia:.2f}",
+    bg="#232d34", 
+    fg="#FFFFFF", 
+    font=("Bahnschrift", 14, "bold")
+)
+
+total_ventas_label.place(x=500, y=400)
+
+# Función para guardar el total de ventas en el archivo JSON
+def guardar_total_ventas():
+    with open('./datos/total_ventas.json', 'w') as file:
+        json.dump(total_ventas_dia, file)
+
 def procesar_venta():
+    global total_ventas_dia
+    
     try:
         codigo = int(codigo_producto.get())
         cantidad = int(cantidad_producto.get())
@@ -173,11 +202,32 @@ def procesar_venta():
             df = pd.DataFrame.from_dict(productos, orient='index')  # Convierte el diccionario actualizado a un DataFrame
             df = df.rename(columns={0:"IDX", 1: "Nombre", 2: "Precio", 3:"Descripción", 4:"Unidades"})
             df.to_csv(f"./datos/{username}_pagos.csv", index_label="ID")  # Guarda el DataFrame actualizado en el archivo CSV
+            
+            total_venta = float(total_venta_text.get().split('$')[1])  # Obtener el total de la venta como número flotante
+            total_ventas_dia += total_venta  # Sumar el total de la venta al total de ventas del día
+
             messagebox.showinfo("Venta procesada", f"El total de la venta es {total_venta_text.get()}\n{cambio_text.get()}")
+            total_ventas_label.config(text=f"Total ventas en el día: ${total_ventas_dia:.2f}")  # Actualizar el label del total de ventas en el día
+            
+            guardar_total_ventas()  # Guardar el total de ventas actualizado
         else:
             messagebox.showerror("Error", "No hay suficientes productos en stock")
     except ValueError:
         messagebox.showerror("Error", "Por favor, ingrese un código y una cantidad válidos")
+
+def on_closing():
+    guardar_total_ventas()
+    registercash.destroy()
+
+registercash.protocol("WM_DELETE_WINDOW", on_closing)
+
+def on_closing():
+    global total_ventas_dia
+    total_ventas_dia = float(total_ventas_label.cget('text').split('$')[1])
+    guardar_total_ventas()
+    registercash.destroy()
+
+registercash.protocol("WM_DELETE_WINDOW", on_closing)
 
 procesar_venta_button = Button(
     registercash, 
@@ -229,5 +279,7 @@ button_back.configure(
     fg="#FFFFFF"
 )
 button_back.place(x=10, y=10)
+
+
 
 registercash.mainloop()
